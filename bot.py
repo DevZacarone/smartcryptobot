@@ -1,8 +1,6 @@
 import requests
 import time
 from datetime import datetime, timezone
-import pandas as pd
-import numpy as np
 import json
 import threading
 
@@ -59,7 +57,7 @@ def get_market_data():
             prev_price = last_prices.get(name, price)
             var_pct = ((price - prev_price) / prev_price) * 100 if prev_price != 0 else 0
 
-            # classificação simples
+            # Classificação simples
             if change_24h >= 1:
                 compra.append(name)
             elif change_24h <= -1:
@@ -67,13 +65,14 @@ def get_market_data():
             else:
                 estaveis.append(name)
 
-            # alerta ±10%
+            # Alerta ±10%
             if abs(var_pct) >= ALERT_THRESHOLD:
                 emoji = "🟢" if var_pct > 0 else "🔴"
                 alertas.append(f"{emoji} <b>{name}</b> — variação de {var_pct:.2f}%")
 
             last_prices[name] = price
 
+        # Mensagem principal formatada
         mensagem = f"""
 📊 <b>Relatório — Top {TOP_N} Criptos</b>
 🕒 Atualizado: <b>{now}</b>
@@ -88,6 +87,7 @@ def get_market_data():
 """
         send_message(mensagem)
 
+        # Envia alerta se alguma cripto variar ±10%
         if alertas:
             alert_text = "<br>".join(alertas)
             send_message(f"🚨 <b>Alerta de Variação Instantânea (±{ALERT_THRESHOLD:.0f}%)</b><br><br>{alert_text}")
@@ -97,9 +97,12 @@ def get_market_data():
 
 # === LOOP PRINCIPAL ===
 def start_bot():
+    print("🤖 ZacaroneBot iniciado! Enviando atualizações a cada", INTERVAL, "minutos...")
     while True:
         get_market_data()
-        time.sleep(INTERVAL * 60)  # intervalo em minutos
+        time.sleep(INTERVAL * 60)
 
-thread = threading.Thread(target=start_bot)
-thread.start()
+# Inicia o bot em thread separada
+if __name__ == "__main__":
+    thread = threading.Thread(target=start_bot)
+    thread.start()
