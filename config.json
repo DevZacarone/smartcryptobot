@@ -1,0 +1,30 @@
+{
+  "TELEGRAM_TOKEN": "8469147729:AAGOS8LoB-V4b72Ye_sTzUeHY9QiOfRd81I",
+  "CHAT_ID": "7678235729",
+  "vs_currency": "brl",
+  "top_n": 50,
+  "interval_minutes": 30,
+  "days_history": 120,
+  "favorites": [
+    "bitcoin",
+    "ethereum",
+    "solana"
+  ],
+  "rsi": {
+    "period": 14,
+    "buy": 35,
+    "sell": 70
+  },
+  "ema": {
+    "fast": 12,
+    "slow": 26,
+    "signal": 9
+  },
+  "bollinger": {
+    "period": 20,
+    "std": 2.0,
+    "squeeze_percentile": 20
+  },
+  "alert_threshold_percent": 10.0,
+  "poll_minutes": 5
+}
