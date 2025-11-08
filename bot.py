@@ -115,3 +115,16 @@ def start_bot():
 if __name__ == "__main__":
     thread = threading.Thread(target=start_bot)
     thread.start()
+
+import os
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "SmartCryptoBot ativo 🚀"
+
+port = int(os.environ.get("PORT", 10000))
+threading.Thread(target=lambda: app.run(host="0.0.0.0", port=port)).start()
+
