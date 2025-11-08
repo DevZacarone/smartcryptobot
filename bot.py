@@ -113,18 +113,19 @@ def start_bot():
         time.sleep(INTERVAL * 60)
 
 if __name__ == "__main__":
+    # inicia o bot em thread
     thread = threading.Thread(target=start_bot)
+    thread.daemon = True
     thread.start()
 
-import os
-from flask import Flask
+    # truque do Flask para manter o Render ativo (modo web fake)
+    from flask import Flask
+    app = Flask(__name__)
 
-app = Flask(__name__)
+    @app.route("/")
+    def home():
+        return "🤖 SmartCryptoBot está ativo e operando com sucesso!"
 
-@app.route('/')
-def home():
-    return "SmartCryptoBot ativo 🚀"
+    app.run(host="0.0.0.0", port=10000)
 
-port = int(os.environ.get("PORT", 10000))
-threading.Thread(target=lambda: app.run(host="0.0.0.0", port=port)).start()
 
